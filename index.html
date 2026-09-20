@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b5f7a">
+<title>Holiday Price Watch</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#f4f7f9;color:#122533}button,input,select{font:inherit}
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #e6edf1;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:#0c3448}.logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#0284c7,#14b8a6)}
+.savedtop{border:1px solid #dbe5ea;background:#fff;border-radius:999px;padding:8px 11px;font-weight:800}
+.hero{background:linear-gradient(125deg,rgba(5,52,76,.93),rgba(3,119,148,.86)),url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover;padding:30px 12px 36px;color:#fff}
+.wrap{max-width:1080px;margin:auto}.hero h1{font-size:clamp(32px,6vw,54px);line-height:1.02;letter-spacing:-.04em;margin:0 0 8px}.hero p{margin:0 0 18px;opacity:.95}
+.searchcard{background:#fff;color:#132a38;border-radius:20px;padding:13px;box-shadow:0 20px 55px rgba(4,37,57,.28)}
+.tabs{display:flex;gap:6px;margin-bottom:10px}.tab{border:0;border-radius:999px;padding:8px 12px;background:#edf5f8;color:#315366;font-weight:850}.tab.active{background:#0a3550;color:#fff}
+.grid{display:grid;grid-template-columns:1.3fr 1.3fr .8fr .8fr;gap:8px}.field.full{grid-column:1/-1}.label{display:block;font-size:11px;font-weight:900;color:#667985;margin:0 0 5px 2px}
+.trigger,.control{width:100%;height:50px;border:1px solid #d5dfe5;border-radius:12px;background:#fff;padding:0 12px;color:#172c39}.trigger{display:flex;align-items:center;justify-content:space-between;font-weight:850}
+.searchbtn{height:52px;width:100%;border:0;border-radius:12px;background:#ff6b35;color:#fff;font-weight:950;margin-top:10px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{background:#f1f6f8;border:1px solid #dfe8ed;border-radius:999px;padding:7px 10px;color:#365465;font-size:12px;font-weight:850}
+.more{margin-top:10px}.more summary{font-weight:850;color:#365465;cursor:pointer}.moregrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:9px}
+.panel{display:none;position:fixed;inset:0;background:rgba(2,21,31,.45);z-index:50}.panel.show{display:block}.sheet{position:absolute;left:10px;right:10px;bottom:10px;background:#fff;border-radius:20px;max-height:84vh;overflow:auto;padding:12px}
+.sheethead{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;padding:5px 4px 10px;border-bottom:1px solid #edf2f5;z-index:3}.sheethead h3{margin:0}.clear{border:0;background:transparent;color:#0284c7;font-weight:900}
+.searchline{position:sticky;top:55px;background:#fff;padding:10px 2px;z-index:2}.searchline input{width:100%;height:42px;border:1px solid #d9e2e7;border-radius:10px;padding:0 11px}
+.group{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#85939d;font-weight:950;padding:11px 5px 5px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:3px}.opt{display:flex;align-items:center;gap:9px;padding:9px 7px;border-radius:8px;font-weight:700;font-size:14px}.opt input{width:18px;height:18px;accent-color:#0284c7}
+.sheetfoot{position:sticky;bottom:0;background:#fff;padding:10px 0 2px}.savepick{width:100%;height:48px;border:0;border-radius:12px;background:#0284c7;color:#fff;font-weight:950}
+main{max-width:1080px;margin:auto;padding:20px 12px 60px}.status{padding:12px 13px;border-radius:12px;font-weight:850;font-size:13px;margin-bottom:14px}.busy{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}.ok{background:#ecfdf5;color:#166534;border:1px solid #bbf7d0}.bad{background:#fff1f2;color:#991b1b;border:1px solid #fecdd3}
+.headrow{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:18px 0 10px}.headrow h2{margin:0;font-size:24px}.headrow p{margin:3px 0 0;color:#6b7c88;font-size:12px}
+.results{display:grid;gap:12px}.result{background:#fff;border:1px solid #e1e8ed;border-radius:17px;padding:15px}.route{font-size:18px;font-weight:950}.small{color:#6b7c88;font-size:12px;margin-top:3px}
+.pricegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.pbox{background:#f7fafb;border-radius:12px;padding:10px}.pbox.best{background:#ecfdf5}.pbox span{display:block;color:#6b7c88;font-size:11px}.pbox strong{font-size:22px}
+.actions{display:flex;gap:7px;margin-top:11px}.actions button{flex:1;border-radius:10px;padding:10px;border:1px solid #dce5ea;background:#fff;font-weight:850}.actions .primary{border:0;background:#0284c7;color:#fff}
+.empty{padding:25px;border:1px dashed #cdd9e0;background:#fff;border-radius:16px;text-align:center;color:#687985}.saved{margin-top:28px}.savedcard{background:#fff;border:1px solid #e1e8ed;border-radius:15px;padding:14px;margin-bottom:9px}.savedcard h3{margin:0 0 3px;font-size:16px}.savedtopline{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.pill{border-radius:999px;background:#eef7ff;color:#17557a;padding:5px 8px;font-size:11px;font-weight:900}.airportgrid{margin-top:10px;border-top:1px solid #edf1f4;padding-top:9px;display:grid;gap:5px}.arow{display:grid;grid-template-columns:1fr auto auto;gap:8px;background:#f8fafc;border-radius:9px;padding:8px 9px;font-size:12px}.arow strong{font-weight:900}.footnote{text-align:center;color:#82909a;font-size:11px;margin-top:22px}
+@media(max-width:720px){.grid{grid-template-columns:1fr 1fr}.from,.to{grid-column:1/-1}.moregrid{grid-template-columns:1fr 1fr}.pricegrid{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.hero{padding-top:22px}.hero h1{font-size:31px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="brand"><div class="logo">✈</div><span>Holiday Price Watch</span></div><button class="savedtop" id="jumpSaved">♡ Saved <span id="savedCount">0</span></button></div>
+<section class="hero"><div class="wrap">
+<h1>Find a better holiday for less.</h1>
+<p>Compare live flight + hotel totals across UK airports, destinations, dates and stay lengths.</p>
+<div class="searchcard">
+<div class="tabs"><button class="tab active">☀ Holidays</button><button class="tab">✈ Flights</button><button class="tab">🏨 Hotels</button></div>
+<div class="grid">
+<div class="field from"><span class="label">Flying from</span><button class="trigger" id="originBtn"><span id="originLabel">Any UK airport</span><span>⌄</span></button></div>
+<div class="field to"><span class="label">Going to</span><button class="trigger" id="destBtn"><span id="destLabel">Anywhere worldwide</span><span>⌄</span></button></div>
+<div class="field"><span class="label">Depart</span><input class="control" id="depart" type="date"></div>
+<div class="field"><span class="label">Nights</span><select class="control" id="nights"><option>7</option><option>10</option><option selected>14</option><option>16</option><option>18</option><option>21</option><option>28</option></select></div>
+</div>
+<button class="searchbtn" id="searchBtn">Search live holidays</button>
+<div class="chips"><span class="chip">👥 2 adults</span><span class="chip">↔ Flexible dates</span><span class="chip">🌙 7–21 nights</span><span class="chip">Live prices only</span></div>
+<details class="more"><summary>More filters</summary><div class="moregrid">
+<div><span class="label">Adults</span><select id="adults" class="control"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div><span class="label">Children</span><select id="children" class="control"><option selected>0</option><option>1</option><option>2</option><option>3</option></select></div>
+<div><span class="label">Weather</span><select class="control"><option>Any</option><option>15°C+</option><option>20°C+</option><option selected>25°C+</option><option>30°C+</option></select></div>
+<div><span class="label">Board</span><select class="control"><option>Any board</option><option>Room Only</option><option>Bed & Breakfast</option><option>Half Board</option><option>All Inclusive</option></select></div>
+</div></details>
+</div></div></section>
+
+<div class="panel" id="originPanel"><div class="sheet"><div class="sheethead"><h3>Choose departure airports</h3><button class="clear" data-clear="origin">Clear</button></div><div class="searchline"><input id="originSearch" placeholder="Search airport or city"></div><div id="originOpts"></div><div class="sheetfoot"><button class="savepick" data-close="origin">Save airport selection</button></div></div></div>
+<div class="panel" id="destPanel"><div class="sheet"><div class="sheethead"><h3>Choose destinations</h3><button class="clear" data-clear="dest">Clear</button></div><div class="searchline"><input id="destSearch" placeholder="Search country, city, island or region"></div><div id="destOpts"></div><div class="sheetfoot"><button class="savepick" data-close="dest">Save destination selection</button></div></div></div>
+
+<main>
+<div id="status" class="status busy">Checking live supplier connection…</div>
+<div class="headrow"><div><h2>Best matches</h2><p>Live supplier prices only. No demo fares.</p></div></div>
+<div id="results" class="results"><div class="empty">Choose a route and search live holidays.</div></div>
+
+<section class="saved" id="savedSection"><div class="headrow"><div><h2>Saved & price watch</h2><p>Airport comparisons and tracked prices stay here.</p></div></div><div id="savedList"><div class="empty">Nothing saved yet.</div></div></section>
+<div class="footnote">Holiday Price Watch • Supabase backend • live supplier status above</div>
+</main>
+
+<script>
+const API='https://gwvnsmaifevpceenaohc.supabase.co/functions/v1/holiday-api';
+const $=id=>document.getElementById(id);
+const airports=[
+['South West','Bristol (BRS)','BRS'],['South West','Exeter (EXT)','EXT'],['South West','Newquay (NQY)','NQY'],['South','Bournemouth (BOH)','BOH'],['South','Southampton (SOU)','SOU'],
+['London','Gatwick (LGW)','LGW'],['London','Heathrow (LHR)','LHR'],['London','Luton (LTN)','LTN'],['London','Stansted (STN)','STN'],['London','London City (LCY)','LCY'],
+['Midlands','Birmingham (BHX)','BHX'],['Midlands','East Midlands (EMA)','EMA'],
+['North','Manchester (MAN)','MAN'],['North','Liverpool (LPL)','LPL'],['North','Leeds Bradford (LBA)','LBA'],['North','Newcastle (NCL)','NCL'],['North','Teesside (MME)','MME'],
+['Wales','Cardiff (CWL)','CWL'],
+['Scotland','Edinburgh (EDI)','EDI'],['Scotland','Glasgow (GLA)','GLA'],['Scotland','Aberdeen (ABZ)','ABZ'],['Scotland','Inverness (INV)','INV'],['Scotland','Prestwick (PIK)','PIK'],
+['Northern Ireland','Belfast International (BFS)','BFS'],['Northern Ireland','Belfast City (BHD)','BHD'],['Northern Ireland','City of Derry (LDY)','LDY']
+];
+const destinations=[
+['Quick choices','Anywhere worldwide','ANY'],['Quick choices','Long haul — anywhere','LONGHAUL'],
+['Europe','Tenerife','TFS'],['Europe','Lanzarote','ACE'],['Europe','Gran Canaria','LPA'],['Europe','Majorca','PMI'],['Europe','Ibiza','IBZ'],['Europe','Cyprus','LCA'],['Europe','Crete','HER'],['Europe','Malta','MLA'],['Europe','Algarve','FAO'],['Europe','Turkey','AYT'],['Europe','Greece','ATH'],['Europe','Madeira','FNC'],
+['Africa','Egypt — Hurghada','HRG'],['Africa','Egypt — Sharm el Sheikh','SSH'],['Africa','Morocco','RAK'],['Africa','Cape Verde','SID'],['Africa','South Africa — Cape Town','CPT'],['Africa','Kenya','NBO'],['Africa','Tanzania / Zanzibar','ZNZ'],['Africa','Mauritius','MRU'],['Africa','Seychelles','SEZ'],
+['Middle East','Dubai','DXB'],['Middle East','Abu Dhabi','AUH'],['Middle East','Qatar','DOH'],['Middle East','Oman','MCT'],
+['Asia','Thailand — Bangkok','BKK'],['Asia','Thailand — Phuket','HKT'],['Asia','Bali','DPS'],['Asia','Sri Lanka','CMB'],['Asia','India — Goa','GOI'],['Asia','Vietnam','SGN'],['Asia','Singapore','SIN'],['Asia','Japan — Tokyo','TYO'],
+['Indian Ocean','Maldives','MLE'],
+['Caribbean','Barbados','BGI'],['Caribbean','Jamaica','MBJ'],['Caribbean','Dominican Republic','PUJ'],['Caribbean','Antigua','ANU'],['Caribbean','Saint Lucia','UVF'],
+['North America','New York','NYC'],['North America','Orlando','MCO'],['North America','Las Vegas','LAS'],['North America','Los Angeles','LAX'],['North America','Mexico — Cancun','CUN'],['North America','Canada — Toronto','YTO'],
+['South America','Brazil — Rio de Janeiro','RIO'],['South America','Argentina — Buenos Aires','BUE'],['South America','Peru — Lima','LIM'],
+['Oceania','Australia — Sydney','SYD'],['Oceania','Australia — Melbourne','MEL'],['Oceania','New Zealand — Auckland','AKL']
+];
+let selectedOrigins=[],selectedDestinations=[],lastSpec=null,lastResults=[];
+const money=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP',maximumFractionDigits:0}).format(n);
+function renderOptions(list,boxId,cls,searchId){const box=$(boxId),q=($(searchId)?.value||'').toLowerCase();let group='';box.innerHTML='';list.filter(x=>!q||x[1].toLowerCase().includes(q)||x[2].toLowerCase().includes(q)).forEach(x=>{if(x[0]!==group){group=x[0];const g=document.createElement('div');g.className='group';g.textContent=group;box.appendChild(g)}const l=document.createElement('label');l.className='opt';const checked=(cls==='origin'?selectedOrigins:selectedDestinations).includes(x[2]);l.innerHTML='<input type="checkbox" data-code="'+x[2]+'" '+(checked?'checked':'')+'> '+x[1];box.appendChild(l)});box.querySelectorAll('input').forEach(i=>i.onchange=()=>{const arr=cls==='origin'?selectedOrigins:selectedDestinations;if(i.checked&&!arr.includes(i.dataset.code))arr.push(i.dataset.code);if(!i.checked){const k=arr.indexOf(i.dataset.code);if(k>=0)arr.splice(k,1)}})}
+renderOptions(airports,'originOpts','origin','originSearch');renderOptions(destinations,'destOpts','dest','destSearch');
+$('originSearch').oninput=()=>renderOptions(airports,'originOpts','origin','originSearch');$('destSearch').oninput=()=>renderOptions(destinations,'destOpts','dest','destSearch');
+$('originBtn').onclick=()=>{$('originPanel').classList.add('show');renderOptions(airports,'originOpts','origin','originSearch')};$('destBtn').onclick=()=>{$('destPanel').classList.add('show');renderOptions(destinations,'destOpts','dest','destSearch')};
+document.querySelectorAll('[data-clear]').forEach(b=>b.onclick=()=>{if(b.dataset.clear==='origin'){selectedOrigins=[];renderOptions(airports,'originOpts','origin','originSearch')}else{selectedDestinations=[];renderOptions(destinations,'destOpts','dest','destSearch')}});
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{if(b.dataset.close==='origin'){$('originPanel').classList.remove('show');$('originLabel').textContent=selectedOrigins.length?selectedOrigins.join(', '):'Any UK airport'}else{$('destPanel').classList.remove('show');$('destLabel').textContent=selectedDestinations.length?selectedDestinations.join(', '):'Anywhere worldwide'}});
+function addDays(iso,n){const d=new Date(iso+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)}
+const d=new Date();d.setDate(d.getDate()+30);$('depart').value=d.toISOString().slice(0,10);
+async function req(action,payload={},timeout=30000){let token=localStorage.getItem('hpw_token');const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),timeout);try{
+ if(!token&&action!=='provider_status'){let r=await fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'register'}),signal:ctrl.signal});let j=await r.json();if(!r.ok)throw Error(j.error||'Registration failed');token=j.installationToken;localStorage.setItem('hpw_token',token)}
+ let r=await fetch(API,{method:'POST',headers:{'content-type':'application/json',...(token?{'x-installation-token':token}:{})},body:JSON.stringify({action,...payload}),signal:ctrl.signal});let j=await r.json().catch(()=>({error:'Invalid response'}));if(!r.ok)throw Error(j.error||('Server error '+r.status));return j
+}finally{clearTimeout(timer)}}
+function status(t,c){$('status').className='status '+c;$('status').textContent=t}
+async function check(){try{const j=await req('provider_status',{},12000);if(j.liveMode)status('● LIVE — supplier connection ready.','ok');else status('Backend is online. Live supplier credentials are not installed on this server yet, so prices cannot be returned until they are added.','bad')}catch(e){status('Backend connection failed: '+e.message,'bad')}}
+function currentSpec(){const nights=Number($('nights').value),departureDate=$('depart').value;return{origins:selectedOrigins.length?selectedOrigins:['BRS','EXT','BHX','LGW'],destinations:selectedDestinations.filter(x=>!['ANY','LONGHAUL'].includes(x)).length?selectedDestinations.filter(x=>!['ANY','LONGHAUL'].includes(x)):['TFS'],departureDate,returnDate:addDays(departureDate,nights),minNights:nights,maxNights:nights,adults:Number($('adults').value),childrenAges:Array.from({length:Number($('children').value)},()=>8)}}
+function renderResults(){const box=$('results');box.innerHTML='';if(!lastResults.length){box.innerHTML='<div class="empty">No live prices returned.</div>';return}lastResults.forEach((r,i)=>{const fp=Number(r?.cheapest?.price),hp=Number(r?.hotel?.cheapest?.price),ct=Number(r?.combinedTotal);const el=document.createElement('div');el.className='result';el.innerHTML='<div class="route">'+r.origin+' → '+r.destination+'</div><div class="small">'+lastSpec.departureDate+' · '+lastSpec.minNights+' nights · live comparison</div><div class="pricegrid"><div class="pbox"><span>Flight</span><strong>'+(Number.isFinite(fp)?money(fp):'—')+'</strong></div><div class="pbox"><span>Hotel</span><strong>'+(Number.isFinite(hp)?money(hp):'—')+'</strong></div><div class="pbox best"><span>Combined total</span><strong>'+(Number.isFinite(ct)?money(ct):'—')+'</strong></div></div><div class="actions"><button class="primary" data-save="'+i+'">♡ Save & watch</button></div>';box.appendChild(el)});box.querySelectorAll('[data-save]').forEach(b=>b.onclick=saveWatch)}
+$('searchBtn').onclick=async()=>{lastSpec=currentSpec();$('searchBtn').disabled=true;$('searchBtn').textContent='Searching live…';status('Searching live flight and hotel suppliers…','busy');try{const j=await req('search_live',{searchSpec:lastSpec},45000);lastResults=j.combined||[];renderResults();status('● LIVE — '+lastResults.length+' comparisons returned.','ok')}catch(e){lastResults=[];renderResults();status(e.message,'bad')}finally{$('searchBtn').disabled=false;$('searchBtn').textContent='Search live holidays'}};
+async function saveWatch(){try{await req('save_watch',{name:(lastSpec.destinations||[]).join(', ')+' from '+(lastSpec.origins||[]).join(', '),searchSpec:lastSpec});await loadSaved();$('savedSection').scrollIntoView({behavior:'smooth'})}catch(e){status('Could not save: '+e.message,'bad')}}
+async function loadSaved(){try{const j=await req('list_watches');const ws=j.watches||[];$('savedCount').textContent=ws.length;const box=$('savedList');box.innerHTML='';if(!ws.length){box.innerHTML='<div class="empty">Nothing saved yet.</div>';return}ws.forEach(w=>{const s=w.search_spec||{};const el=document.createElement('div');el.className='savedcard';el.innerHTML='<div class="savedtopline"><div><h3>'+(w.name||'Saved holiday')+'</h3><div class="small">'+(s.departureDate||'')+' · '+(s.minNights||'')+' nights</div></div><span class="pill">'+(w.is_active?'Watching':'Paused')+'</span></div><div style="margin-top:8px;font-weight:950">'+(w.best_price?money(Number(w.best_price)):'Awaiting first live price')+'</div><div class="airportgrid"><div class="arow"><span>Airport comparison</span><strong>Saved</strong><span>updates on recheck</span></div></div>';box.appendChild(el)})}catch(e){$('savedList').innerHTML='<div class="empty">Could not load saved searches.</div>'}}
+$('jumpSaved').onclick=()=>$('savedSection').scrollIntoView({behavior:'smooth'});check();loadSaved();
+</script>
+</body></html>
